@@ -41,6 +41,8 @@
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+" This is a modified version from the above source and others:
+" - https://joshldavis.com/2014/04/05/vim-tab-madness-buffers-vs-tabs/
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
@@ -79,10 +81,11 @@ call SetupVAM()
 
 VAMActivate github:bling/vim-airline
 VAMActivate github:Valloric/YouCompleteMe
+" VAMActivate github:lyuts/vim-rtags
 VAMActivate molokai
 VAMActivate trailing-whitespace
 VAMActivate ctrlp
-VAMActivate github:scrooloose/nerdtree
+" VAMActivate github:scrooloose/nerdtree
 VAMActivate github:sjl/gundo.vim
 " VAMActivate fugitive (git)
 VAMActivate delimitMate
@@ -102,11 +105,10 @@ let g:LatexBox_custom_indent = 0
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => CtrlP
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlPBuffer'
-
-nnoremap <c-p><c-p> :CtrlP<CR>
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/](\.(git|hg|svn)|\_site)$',
+  \ 'file': '\v\.(exe|so|dll|class|png|jpg|jpeg)$',
+\}
 
 let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 let g:ctrlp_use_caching = 0
@@ -115,7 +117,8 @@ let g:ctrlp_use_caching = 0
 " => ag
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-nnoremap <F2> :Ag "\b<C-R><C-W>\b"<CR>:cw<CR>
+" Ctrl+/
+nnoremap <C-_> :Ag "\b<C-R><C-W>\b"<CR>:cw<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => vim-compiledb-path
@@ -130,13 +133,22 @@ augroup END
 " => vim-airline
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+" Display status line always
 set laststatus=2
+
+let g:airline_powerline_fonts = 1
+
+" Enable the list of buffers
+let g:airline#extensions#tabline#enabled = 1
+
+" Show just the filename
+let g:airline#extensions#tabline#fnamemod = ':t'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => YCM
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-let g:ycm_global_ycm_extra_conf = '~/Documents/ycm-conf/.ycm_extra_conf.py'
+let g:ycm_global_ycm_extra_conf = '~/Source/ycm-conf/.ycm_extra_conf.py'
 let g:ycm_confirm_extra_conf = 0
 
 let g:ycm_enable_diagnostic_signs = 1
@@ -146,21 +158,6 @@ let g:ycm_open_loclist_on_ycm_diags = 1 "default 1
 
 let g:ycm_total_in_strings = 1 "default 1
 
-let g:ycm_semantic_triggers = {
-    \   'c' : ['->', '.'],
-    \   'objc' : ['->', '.'],
-    \   'ocaml' : ['.', '#'],
-    \   'cpp,objcpp' : ['->', '.', '::'],
-    \   'perl' : ['->'],
-    \   'php' : ['->', '::'],
-    \   'cs,java,javascript,d,python,perl6,scala,vb,elixir,go' : ['.'],
-    \   'vim' : ['re![_a-zA-Z]+[_\w]*\.'],
-    \   'ruby' : ['.', '::'],
-    \   'lua' : ['.', ':'],
-    \   'erlang' : [':'],
-    \   'tex' : ['{']
-    \ }
-
 "let g:ycm_autoclose_preview_window_after_completion = 1
 
 let g:ycm_server_use_vim_stdout = 0 "default 0 (logging to console)
@@ -168,7 +165,7 @@ let g:ycm_server_log_level = 'info' "default info"
 
 let g:ycm_extra_conf_vim_data =  ['getcwd()']
 
-nnoremap <F3> :YcmCompleter GoToDefinitionElseDeclaration<CR>
+nnoremap <C-h> :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Gundo
@@ -178,19 +175,7 @@ let g:gundo_right = 1
 let g:gundo_width = 60
 let g:gundo_preview_height = 30
 
-nnoremap <F5> :GundoToggle<CR>
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => NerdTree
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-
-let g:NERDTreeWinPos = 'right'
-let g:NERDTreeWinSize = 60
-
-noremap <F6> :NERDTreeToggle<cr>
+nnoremap <C-u><C-u> :GundoToggle<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
@@ -255,12 +240,13 @@ set number " enable line numbers
 
 nnoremap d "_d
 
+nnoremap <C-Left> :bprev <CR>
+nnoremap <C-Right> :bnext <CR>
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => HexMode
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nnoremap <F10> :Hexmode<CR>
-inoremap <F10> <Esc>:Hexmode<CR>
-vnoremap <F10> :<C-U>Hexmode<CR>
+
 " ex command for toggling hex mode - define mapping if desired
 command -bar Hexmode call ToggleHex()
 
@@ -361,10 +347,4 @@ autocmd BufReadPost *
      \ endif
 " Remember info about open buffers on close
 set viminfo^=%
-
-
-" => Key mappings
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-"set pastetoggle=<F2>
 
