@@ -1,48 +1,11 @@
-
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Maintainer: 
-"       Amir Salihefendic
-"       http://amix.dk - amix@amix.dk
 "
-" Version: 
-"       5.0 - 29/05/12 15:43:36
-"
-" Blog_post: 
-"       http://amix.dk/blog/post/19691#The-ultimate-Vim-configuration-on-Github
-"
-" Awesome_version:
-"       Get this config, nice color schemes and lots of plugins!
-"
-"       Install the awesome version from:
-"
-"           https://github.com/amix/vimrc
-"
-" Syntax_highlighted:
-"       http://amix.dk/vim/vimrc.html
-"
-" Raw_version: 
-"       http://amix.dk/vim/vimrc.txt
-"
-" Sections:
-"    -> General
-"    -> VIM user interface
-"    -> Colors and Fonts
-"    -> Files and backups
-"    -> Text, tab and indent related
-"    -> Visual mode related
-"    -> Moving around, tabs and buffers
-"    -> Status line
-"    -> Editing mappings
-"    -> vimgrep searching and cope displaying
-"    -> Spell checking
-"    -> Misc
-"    -> Helper functions
-"
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" This is a modified version from the above source and others:
+" This vimrc was created out of various source:
+" - http://amix.dk/blog/post/19691#The-ultimate-Vim-configuration-on-Github
 " - https://joshldavis.com/2014/04/05/vim-tab-madness-buffers-vs-tabs/
+" - http://vim.wikia.com/wiki/Automatic_insertion_of_C/C%2B%2B_header_gates
+"
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
@@ -148,7 +111,7 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 " => YCM
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-let g:ycm_global_ycm_extra_conf = '~/Documents/ycm-conf/.ycm_extra_conf.py'
+let g:ycm_global_ycm_extra_conf = '~/Source/ycm-conf/.ycm_extra_conf.py'
 let g:ycm_confirm_extra_conf = 0
 
 let g:ycm_enable_diagnostic_signs = 1
@@ -334,6 +297,7 @@ set wrap "Wrap lines
 vnoremap < <gv
 vnoremap > >gv
 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Usefull scripts
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -349,4 +313,17 @@ autocmd BufReadPost *
      \ endif
 " Remember info about open buffers on close
 set viminfo^=%
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" C/C++ header gates
+""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+function! s:insert_gates()
+  let gatename = substitute(toupper(expand("%:t")), "\\.", "_", "g")
+  execute "normal! i#ifndef " . gatename
+  execute "normal! o#define " . gatename
+  execute "normal! Go#endif /* " . gatename . " */"
+  normal! kk
+endfunction
+autocmd BufNewFile *.{h,hpp} call <SID>insert_gates()
 
