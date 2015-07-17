@@ -58,6 +58,7 @@ VAMActivate EasyMotion
 VAMActivate tComment
 VAMActivate github:martong/vim-compiledb-path
 VAMActivate github:LaTeX-BoX-Team/LaTeX-Box
+VAMActivate github:rhysd/vim-clang-format
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => LaTeX-BoX
@@ -111,7 +112,7 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 " => YCM
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-let g:ycm_global_ycm_extra_conf = '~/Source/ycm-conf/.ycm_extra_conf.py'
+let g:ycm_global_ycm_extra_conf = '~/Source/github/ycm-conf/.ycm_extra_conf.py'
 let g:ycm_confirm_extra_conf = 0
 
 let g:ycm_enable_diagnostic_signs = 1
