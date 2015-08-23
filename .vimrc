@@ -34,7 +34,7 @@ fun! SetupVAM()
     let &rtp.=(empty(&rtp)?'':',').c.plugin_root_dir.'/vim-addon-manager'
     if !isdirectory(c.plugin_root_dir.'/vim-addon-manager/autoload')
         execute '!git clone --depth=1 git://github.com/MarcWeber/vim-addon-manager '
-        \ shellescape(c.plugin_root_dir.'/vim-addon-manager', 1)
+                    \ shellescape(c.plugin_root_dir.'/vim-addon-manager', 1)
     endif
     call vam#ActivateAddons([], {'auto_install' : 0})
 endfun
@@ -58,13 +58,31 @@ VAMActivate EasyMotion
 VAMActivate tComment
 VAMActivate github:martong/vim-compiledb-path
 VAMActivate github:LaTeX-BoX-Team/LaTeX-Box
-VAMActivate github:rhysd/vim-clang-format
+VAMActivate github:Chiel92/vim-autoformat
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Clang-Format
+" => AutoFormat
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-nmap <C-k> :ClangFormatAutoToggle<CR>
+let g:formatdef_clangformat = "'clang-format -lines='.a:firstline.':'.a:lastline.' --assume-filename='.bufname('%').' -style=LLVM'"
+
+let g:auto_format_toggle = 0
+function! ToggleAutoformat()
+    let g:auto_format_toggle = !g:auto_format_toggle
+    if g:auto_format_toggle
+        echo "Autoformat on buffer write: enabled"
+    else
+        echo "Autoformat on buffer write: disabled"
+    endif
+endfunction
+command! AutoformatToggle call ToggleAutoformat()
+
+augroup plugin-autoformat-writebuffer
+    autocmd!
+    autocmd BufWrite * if g:auto_format_toggle | :Autoformat
+augroup END
+
+nmap <C-k> :AutoformatToggle<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => LaTeX-BoX
@@ -76,9 +94,9 @@ let g:LatexBox_custom_indent = 0
 " => CtrlP
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/](\.(git|hg|svn)|\_site)$',
-  \ 'file': '\v\.(exe|so|dll|class|png|jpg|jpeg)$',
-\}
+            \ 'dir':  '\v[\/](\.(git|hg|svn)|\_site)$',
+            \ 'file': '\v\.(exe|so|dll|class|png|jpg|jpeg)$',
+            \}
 
 let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 let g:ctrlp_use_caching = 0
@@ -224,42 +242,42 @@ command -bar Hexmode call ToggleHex()
 
 " helper function to toggle hex mode
 function ToggleHex()
-  " hex mode should be considered a read-only operation
-  " save values for modified and read-only for restoration later,
-  " and clear the read-only flag for now
-  let l:modified=&mod
-  let l:oldreadonly=&readonly
-  let &readonly=0
-  let l:oldmodifiable=&modifiable
-  let &modifiable=1
-  if !exists("b:editHex") || !b:editHex
-    " save old options
-    let b:oldft=&ft
-    let b:oldbin=&bin
-    " set new options
-    setlocal binary " make sure it overrides any textwidth, etc.
-    silent :e " this will reload the file without trickeries
-              "(DOS line endings will be shown entirely )
-    let &ft="xxd"
-    " set status
-    let b:editHex=1
-    " switch to hex editor
-    %!xxd
-  else
-    " restore old options
-    let &ft=b:oldft
-    if !b:oldbin
-      setlocal nobinary
+    " hex mode should be considered a read-only operation
+    " save values for modified and read-only for restoration later,
+    " and clear the read-only flag for now
+    let l:modified=&mod
+    let l:oldreadonly=&readonly
+    let &readonly=0
+    let l:oldmodifiable=&modifiable
+    let &modifiable=1
+    if !exists("b:editHex") || !b:editHex
+        " save old options
+        let b:oldft=&ft
+        let b:oldbin=&bin
+        " set new options
+        setlocal binary " make sure it overrides any textwidth, etc.
+        silent :e " this will reload the file without trickeries
+        "(DOS line endings will be shown entirely )
+        let &ft="xxd"
+        " set status
+        let b:editHex=1
+        " switch to hex editor
+        %!xxd
+    else
+        " restore old options
+        let &ft=b:oldft
+        if !b:oldbin
+            setlocal nobinary
+        endif
+        " set status
+        let b:editHex=0
+        " return to normal editing
+        %!xxd -r
     endif
-    " set status
-    let b:editHex=0
-    " return to normal editing
-    %!xxd -r
-  endif
-  " restore values for modified and read only state
-  let &mod=l:modified
-  let &readonly=l:oldreadonly
-  let &modifiable=l:oldmodifiable
+    " restore values for modified and read only state
+    let &mod=l:modified
+    let &readonly=l:oldreadonly
+    let &modifiable=l:oldmodifiable
 endfunction
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -315,9 +333,9 @@ highlight ColorColumn ctermbg=235 guibg=#2c2d27
 
 " Return to last edit position when opening files (You want this!)
 autocmd BufReadPost *
-     \ if line("'\"") > 0 && line("'\"") <= line("$") |
-     \   exe "normal! g`\"" |
-     \ endif
+            \ if line("'\"") > 0 && line("'\"") <= line("$") |
+            \   exe "normal! g`\"" |
+            \ endif
 " Remember info about open buffers on close
 set viminfo^=%
 
@@ -326,11 +344,11 @@ set viminfo^=%
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
 
 function! s:insert_gates()
-  let gatename = substitute(toupper(expand("%:t")), "\\.", "_", "g")
-  execute "normal! i#ifndef " . gatename
-  execute "normal! o#define " . gatename
-  execute "normal! Go#endif /* " . gatename . " */"
-  normal! kk
+    let gatename = substitute(toupper(expand("%:t")), "\\.", "_", "g")
+    execute "normal! i#ifndef " . gatename
+    execute "normal! o#define " . gatename
+    execute "normal! Go#endif /* " . gatename . " */"
+    normal! kk
 endfunction
 autocmd BufNewFile *.{h,hpp} call <SID>insert_gates()
 
