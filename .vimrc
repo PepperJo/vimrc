@@ -90,6 +90,9 @@ nmap <C-k> :AutoformatToggle<CR>
 
 let g:LatexBox_custom_indent = 0
 
+" textwidth 80
+autocmd bufreadpre *.tex setlocal textwidth=80
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => CtrlP
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -136,7 +139,7 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 " => YCM
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-let g:ycm_global_ycm_extra_conf = '~/Source/ycm-conf/.ycm_extra_conf.py'
+let g:ycm_global_ycm_extra_conf = '~/Documents/ycm-conf/.ycm_extra_conf.py'
 let g:ycm_confirm_extra_conf = 0
 
 let g:ycm_enable_diagnostic_signs = 1
