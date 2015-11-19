@@ -58,29 +58,27 @@ VAMActivate EasyMotion
 VAMActivate tComment
 VAMActivate github:martong/vim-compiledb-path
 VAMActivate github:LaTeX-BoX-Team/LaTeX-Box
-VAMActivate github:Chiel92/vim-autoformat
+VAMActivate LargeFile
+VAMActivate github:google/vim-codefmt
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => AutoFormat
+" => CodeFmt
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-let g:formatdef_clangformat = "'clang-format -lines='.a:firstline.':'.a:lastline.' --assume-filename='.bufname('%').' -style=LLVM'"
+let g:codefmt_clang_format_style = "{BasedOnStyle: LLVM, IndentWidth: 4, PointerAlignment: Left}"
 
 let g:auto_format_toggle = 0
 function! ToggleAutoformat()
     let g:auto_format_toggle = !g:auto_format_toggle
     if g:auto_format_toggle
         echo "Autoformat on buffer write: enabled"
+        :AutoFormatBuffer
     else
         echo "Autoformat on buffer write: disabled"
+        :NoAutoFormatBuffer
     endif
 endfunction
 command! AutoformatToggle call ToggleAutoformat()
-
-augroup plugin-autoformat-writebuffer
-    autocmd!
-    autocmd BufWrite * if g:auto_format_toggle | :Autoformat
-augroup END
 
 nmap <C-k> :AutoformatToggle<CR>
 
@@ -111,6 +109,9 @@ let g:ctrlp_use_caching = 0
 " Ctrl+/
 nnoremap <C-_> :Ag "\b<C-R><C-W>\b"<CR>:cw<CR>
 
+let g:ag_working_path_mode='r'
+let g:ag_highlight=1
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => vim-compiledb-path
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -139,7 +140,7 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 " => YCM
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-let g:ycm_global_ycm_extra_conf = '~/Documents/ycm-conf/.ycm_extra_conf.py'
+let g:ycm_global_ycm_extra_conf = '~/Source/github/ycm-conf/.ycm_extra_conf.py'
 let g:ycm_confirm_extra_conf = 0
 
 let g:ycm_enable_diagnostic_signs = 1
