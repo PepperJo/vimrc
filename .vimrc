@@ -140,7 +140,7 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 " => YCM
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-let g:ycm_global_ycm_extra_conf = '~/Source/github/ycm-conf/.ycm_extra_conf.py'
+let g:ycm_global_ycm_extra_conf = '~/Source/ycm-conf/.ycm_extra_conf.py'
 let g:ycm_confirm_extra_conf = 0
 
 let g:ycm_enable_diagnostic_signs = 1
@@ -157,7 +157,7 @@ let g:ycm_server_log_level = 'info' "default info"
 
 let g:ycm_extra_conf_vim_data =  ['getcwd()']
 
-nnoremap <C-h> :YcmCompleter GoToDefinitionElseDeclaration<CR>
+nnoremap <C-h> :YcmCompleter GoTo<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Gundo
