@@ -44,22 +44,24 @@ call SetupVAM()
 
 VAMActivate github:bling/vim-airline
 VAMActivate github:Valloric/YouCompleteMe
-" VAMActivate github:lyuts/vim-rtags
-VAMActivate molokai
-VAMActivate trailing-whitespace
-VAMActivate ctrlp
-" VAMActivate github:scrooloose/nerdtree
+VAMActivate github:tomasr/molokai
+VAMActivate github:bronson/vim-trailing-whitespace
+VAMActivate github:kien/ctrlp.vim
 VAMActivate github:sjl/gundo.vim
-" VAMActivate fugitive (git)
-VAMActivate delimitMate
-VAMActivate Tabular
-VAMActivate ag
-VAMActivate EasyMotion
-VAMActivate tComment
-VAMActivate github:martong/vim-compiledb-path
+VAMActivate github:Raimondi/delimitMate
+VAMActivate github:godlygeek/tabular
+VAMActivate github:rking/ag.vim
+VAMActivate github:easymotion/vim-easymotion
+VAMActivate github:tomtom/tcomment_vim
 VAMActivate github:LaTeX-BoX-Team/LaTeX-Box
 VAMActivate LargeFile
 VAMActivate github:google/vim-codefmt
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => delimitMate
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+let g:delimitMate_expand_cr = 1
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => CodeFmt
@@ -113,15 +115,6 @@ let g:ag_working_path_mode='r'
 let g:ag_highlight=1
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => vim-compiledb-path
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-augroup Enter
-    autocmd!
-    autocmd VimEnter * :CompileDbPathIfExists ./compile_commands.json
-augroup END
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => vim-airline
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -155,7 +148,9 @@ let g:ycm_total_in_strings = 1 "default 1
 let g:ycm_server_use_vim_stdout = 0 "default 0 (logging to console)
 let g:ycm_server_log_level = 'info' "default info"
 
-let g:ycm_extra_conf_vim_data =  ['getcwd()']
+let g:ycm_extra_conf_vim_data_root_dir = getcwd()
+let g:ycm_extra_conf_vim_data_explore = ['.']
+let g:ycm_extra_conf_vim_data =  ['g:ycm_extra_conf_vim_data_root_dir', 'g:ycm_extra_conf_vim_data_explore']
 
 nnoremap <C-h> :YcmCompleter GoTo<CR>
 
