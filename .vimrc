@@ -55,7 +55,14 @@ VAMActivate github:easymotion/vim-easymotion
 VAMActivate github:tomtom/tcomment_vim
 VAMActivate github:LaTeX-BoX-Team/LaTeX-Box
 VAMActivate LargeFile
+VAMActivate github:tpope/vim-repeat
 VAMActivate github:google/vim-codefmt
+VAMActivate glaive
+VAMActivate vtd
+
+call glaive#Install()
+" " Initializes all maktaba plugins.
+call maktaba#plugin#Detect()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => delimitMate
@@ -67,7 +74,7 @@ let g:delimitMate_expand_cr = 1
 " => CodeFmt
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-let g:codefmt_clang_format_style = "{BasedOnStyle: LLVM, IndentWidth: 4, PointerAlignment: Left}"
+Glaive codefmt clang_format_style="{BasedOnStyle: LLVM, IndentWidth: 4, PointerAlignment: Left}"
 
 let g:auto_format_toggle = 0
 function! ToggleAutoformat()
