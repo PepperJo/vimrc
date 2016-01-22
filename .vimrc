@@ -76,7 +76,7 @@ let g:delimitMate_expand_cr = 1
 
 Glaive codefmt clang_format_style="{BasedOnStyle: LLVM, IndentWidth: 4, PointerAlignment: Left}"
 
-let g:auto_format_toggle = 0
+autocmd BufReadPre,FileReadPre * let b:auto_format_toggle = 0
 function! ToggleAutoformat()
     let g:auto_format_toggle = !g:auto_format_toggle
     if g:auto_format_toggle
