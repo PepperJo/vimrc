@@ -59,10 +59,17 @@ VAMActivate github:tpope/vim-repeat
 VAMActivate github:google/vim-codefmt
 VAMActivate glaive
 VAMActivate vtd
+VAMActivate github:eagletmt/neco-ghc
 
 call glaive#Install()
 " " Initializes all maktaba plugins.
 call maktaba#plugin#Detect()
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => neco-ghc
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => delimitMate
@@ -151,6 +158,8 @@ let g:ycm_open_loclist_on_ycm_diags = 1 "default 1
 let g:ycm_total_in_strings = 1 "default 1
 
 "let g:ycm_autoclose_preview_window_after_completion = 1
+"
+let g:ycm_semantic_triggers = {'haskell' : ['.']}
 
 let g:ycm_server_use_vim_stdout = 0 "default 0 (logging to console)
 let g:ycm_server_log_level = 'info' "default info"
