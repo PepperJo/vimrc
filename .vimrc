@@ -53,7 +53,7 @@ VAMActivate github:godlygeek/tabular
 VAMActivate github:rking/ag.vim
 VAMActivate github:easymotion/vim-easymotion
 VAMActivate github:tomtom/tcomment_vim
-VAMActivate github:LaTeX-BoX-Team/LaTeX-Box
+VAMActivate github:lervag/vimtex
 VAMActivate LargeFile
 VAMActivate github:tpope/vim-repeat
 VAMActivate github:google/vim-codefmt
@@ -167,6 +167,15 @@ let g:ycm_server_log_level = 'info' "default info"
 let g:ycm_extra_conf_vim_data_root_dir = getcwd()
 let g:ycm_extra_conf_vim_data_explore = ['.']
 let g:ycm_extra_conf_vim_data =  ['g:ycm_extra_conf_vim_data_root_dir', 'g:ycm_extra_conf_vim_data_explore']
+
+if !exists('g:ycm_semantic_triggers')
+    let g:ycm_semantic_triggers = {}
+endif
+let g:ycm_semantic_triggers.tex = [
+        \ 're!\\[A-Za-z]*(ref|cite)[A-Za-z]*([^]]*])?{([^}]*,?)*',
+        \ 're!\\includegraphics([^]]*])?{[^}]*',
+        \ 're!\\(include|input){[^}]*'
+        \ ]
 
 nnoremap <C-h> :YcmCompleter GoTo<CR>
 
