@@ -99,10 +99,10 @@ command! AutoformatToggle call ToggleAutoformat()
 nmap <C-k> :AutoformatToggle<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => LaTeX-BoX
+" => vimtex
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-let g:LatexBox_custom_indent = 0
+let g:vimtex_fold_enable = 1
 
 " textwidth 80
 autocmd bufreadpre *.tex setlocal textwidth=80
