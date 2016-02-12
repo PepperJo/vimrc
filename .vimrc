@@ -42,7 +42,8 @@ endfun
 call SetupVAM()
 " use <c-x><c-p> to complete plugin names
 
-VAMActivate github:bling/vim-airline
+VAMActivate github:vim-airline/vim-airline
+VAMActivate github:vim-airline/vim-airline-themes
 VAMActivate github:Valloric/YouCompleteMe
 VAMActivate github:tomasr/molokai
 VAMActivate github:bronson/vim-trailing-whitespace
@@ -60,6 +61,7 @@ VAMActivate github:google/vim-codefmt
 VAMActivate glaive
 VAMActivate vtd
 VAMActivate github:eagletmt/neco-ghc
+VAMActivate github:rust-lang/rust.vim
 
 call glaive#Install()
 " " Initializes all maktaba plugins.
