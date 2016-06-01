@@ -334,6 +334,10 @@ set nobackup
 " Use spaces instead of tabs
 set expandtab
 
+" show tabs
+set list
+set listchars=tab:>-
+
 " Be smart when using tabs ;)
 set smarttab
 
